@@ -2,7 +2,7 @@ import express from 'express';
 import pkg from 'pg';  // Importation par défaut de `pg`
 import dotenv from 'dotenv';
 
-const { Pool } = pkg;  // Déstructuration pour extraire Pool
+const { Pool } = pkg;  
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -12,8 +12,12 @@ app.use(express.json());
 
 // Configuration de la base de données PostgreSQL
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // La variable d'environnement DATABASE_URL sera configurée par Railway
-});
+    user: process.env.POSTGRES_USER, // Utilisation de POSTGRES_USER
+    password: process.env.POSTGRES_PASSWORD, // Utilisation de POSTGRES_PASSWORD
+    host: 'yamabiko.proxy.rlwy.net', // L'hôte de la base de données PostgreSQL
+    port: 37383, // Port de la base de données PostgreSQL
+    database: 'railway', // Nom de la base de données
+  });
 
 // Route pour récupérer toutes les tâches
 app.get('/tasks', async (req, res) => {
