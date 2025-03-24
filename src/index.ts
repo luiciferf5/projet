@@ -1,8 +1,6 @@
 import express from 'express';
-import pkg from 'pg';  // Importation par défaut de `pg`
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
-
-const { Pool } = pkg;  // Déstructuration pour extraire Pool
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -10,9 +8,13 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Configuration de la base de données PostgreSQL
+// Configuration de la base de données PostgreSQL avec PGPASSWORD
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // La variable d'environnement DATABASE_URL sera configurée par Railway
+  host: 'yamabiko.proxy.rlwy.net',
+  port: 37383,
+  user: 'postgres',
+  password: process.env.PGPASSWORD, // Récupérer le mot de passe à partir de l'environnement
+  database: 'railway',
 });
 
 // Route pour récupérer toutes les tâches
