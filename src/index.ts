@@ -58,7 +58,7 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
-// Lancer le serveur
+// Lancer le serveu
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`🚀 Serveur lancé sur le port ${port}`);
