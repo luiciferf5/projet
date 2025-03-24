@@ -25,7 +25,7 @@ pool.connect()
 // Routes
 app.get('/tasks', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM tasks');
+    const result = await pool.query('SELECT * FROM tâches');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -37,7 +37,7 @@ app.post('/tasks', async (req, res) => {
   const { title } = req.body;
   try {
     const result = await pool.query(
-      'INSERT INTO tasks(title) VALUES($1) RETURNING *',
+      'INSERT INTO tâches(title) VALUES($1) RETURNING *',
       [title]
     );
     res.status(201).json(result.rows[0]);
