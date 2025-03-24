@@ -62,4 +62,12 @@ app.delete('/tasks/:id', async (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`🚀 Serveur lancé sur le port ${port}`);
+  console.log('Connexion à PostgreSQL avec :', {
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD?.slice(0, 4) + '***',
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    database: process.env.PGDATABASE,
+  });
+  
 });
