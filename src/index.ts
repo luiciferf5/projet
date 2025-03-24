@@ -1,48 +1,52 @@
 import express from 'express';
-import pkg from 'pg';  // Importation par défaut de `pg`
+import pkg from 'pg';
 import dotenv from 'dotenv';
 
-const { Pool } = pkg;  
-
-// Charger les variables d'environnement
 dotenv.config();
+const { Pool } = pkg;
 
 const app = express();
 app.use(express.json());
 
-// Configuration de la base de données PostgreSQL
+// Configurer PostgreSQL avec les variables d'environnement
 const pool = new Pool({
-    user: process.env.POSTGRES_USER, // Utilisation de POSTGRES_USER
-    password: process.env.POSTGRES_PASSWORD, // Utilisation de POSTGRES_PASSWORD
-    host: 'yamabiko.proxy.rlwy.net', // L'hôte de la base de données PostgreSQL
-    port: 37383, // Port de la base de données PostgreSQL
-    database: 'railway', // Nom de la base de données
-  });
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  host: process.env.PGHOST,
+  port: Number(process.env.PGPORT),
+  database: process.env.PGDATABASE,
+});
 
-// Route pour récupérer toutes les tâches
+// Tester la connexion à la base
+pool.connect()
+  .then(() => console.log('✅ Connecté à PostgreSQL'))
+  .catch((err) => console.error('❌ Erreur de connexion à PostgreSQL :', err));
+
+// Routes
 app.get('/tasks', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM tasks');
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Erreur interne');
   }
 });
 
-// Route pour ajouter une nouvelle tâche
 app.post('/tasks', async (req, res) => {
   const { title } = req.body;
   try {
-    const result = await pool.query('INSERT INTO tasks(title) VALUES($1) RETURNING *', [title]);
+    const result = await pool.query(
+      'INSERT INTO tasks(title) VALUES($1) RETURNING *',
+      [title]
+    );
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Erreur interne');
   }
 });
 
-// Route pour supprimer une tâche
 app.delete('/tasks/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -50,12 +54,12 @@ app.delete('/tasks/:id', async (req, res) => {
     res.status(204).send();
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send('Erreur interne');
   }
 });
 
-// Configuration du port
+// Lancer le serveur
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`🚀 Serveur lancé sur le port ${port}`);
 });
