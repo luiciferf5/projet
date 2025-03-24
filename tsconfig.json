@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-      "target": "ESNext",
-      "module": "ESNext", 
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true
+      "module": "ESNext", // Utilise ESNext pour la gestion des modules ES
+      "target": "ESNext", // Utilise la dernière version d'ES pour le code JavaScript généré
+      "moduleResolution": "node", // Résolution des modules comme en Node.js
+      "esModuleInterop": true, // Permet l'importation de modules CommonJS comme s'ils étaient des modules ES
+      "skipLibCheck": true, // Ignore les vérifications de type des fichiers de type dans les modules externes
+      "strict": true, // Active la vérification stricte des types
+      "outDir": "./dist", // Spécifie où les fichiers JavaScript générés doivent être placés
+      "rootDir": "./src" // Spécifie le dossier contenant les fichiers source
     },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*"], // Inclut tous les fichiers sous le dossier src
+    "exclude": ["node_modules"] // Exclut le dossier node_modules
   }
   

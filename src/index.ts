@@ -1,6 +1,8 @@
 import express from 'express';
-import { Pool } from 'pg';
+import pkg from 'pg';  // Importation par défaut de `pg`
 import dotenv from 'dotenv';
+
+const { Pool } = pkg;  // Déstructuration pour extraire Pool
 
 // Charger les variables d'environnement
 dotenv.config();
