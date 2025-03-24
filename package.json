@@ -10,7 +10,7 @@
     "check-format": "prettier --check \"src/**/*.{js,ts}\"",
     "prepare": "husky install",
     "commit": "cz",
-    "start": "node src/index.js"
+    "start": "node src/index.ts"
   },
   "config": {
     "commitizen": {
